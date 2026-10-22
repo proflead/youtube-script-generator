@@ -1,39 +1,99 @@
-# YouTube Script Generator
+# AI YouTube Script Generator
 
-A Python tool that helps you write a YouTube video script. Enter a topic, and it searches YouTube, reads available English transcripts from up to three videos, and uses OpenAI to create a research summary and an original script.
+Research a YouTube topic and turn the findings into a script draft using Python, [SearchApi](https://www.searchapi.io/?utm_source=dev&utm_medium=ambassador&utm_campaign=proflead.dev), and OpenAI.
 
-## Setup
+Enter a topic, and the tool:
 
-You need Python 3, a SearchAPI API key, and an OpenAI API key.
+1. Searches YouTube for relevant videos.
+2. Prioritizes videos by view count from the first 10 results.
+3. Collects available transcripts from up to three videos.
+4. Analyzes hooks, structure, common topics, and content gaps.
+5. Generates a research brief and a script draft.
 
-1. Open a terminal in the project folder and install the required packages:
+**[Read the full tutorial: Build an AI YouTube Script Generator That Analyzes Top Performing Videos](https://proflead.dev/posts/build-an-ai-youtube-script-generator-that-analyzes-top-performing-videos/)**
 
-   ```bash
-   python3 -m pip install requests python-dotenv openai
-   ```
+## Requirements
 
-2. Create a file named `.env` in the project folder and add your keys:
+- Python 3 and Git installed.
+- A [SearchApi API key](https://www.searchapi.io/?utm_source=dev&utm_medium=ambassador&utm_campaign=proflead.dev).
+- An OpenAI API key with access to the model configured in the script.
+- An internet connection.
 
-   ```dotenv
-   SEARCHAPI_API_KEY=your_searchapi_key
-   OPENAI_API_KEY=your_openai_key
-   ```
+## Installation
 
-   Keep your API keys private. Do not commit the `.env` file to Git.
-
-## Use
-
-Run the tool:
+### 1. Clone the repository
 
 ```bash
-python3 youtube_script_generator.py
+git clone https://github.com/proflead/youtube-script-generator.git
+cd youtube-script-generator
 ```
 
-Enter your video topic when asked. For example: `How to start a vegetable garden`.
+### 2. Create and activate a virtual environment
 
-The tool saves two files in the folder where you run it:
+**macOS / Linux**
 
-- `research.md`: A summary of hooks, common topics, and content gaps.
-- `script.md`: Your generated video script.
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+```
 
-Each run replaces these files, so save a copy if you want to keep earlier results.
+**Windows PowerShell**
+
+```powershell
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+```
+
+### 3. Install the dependencies
+
+With the virtual environment active, run:
+
+```bash
+python -m pip install requests openai python-dotenv
+```
+
+### 4. Add your API keys
+
+Create a file named `.env` in the project folder:
+
+```dotenv
+SEARCHAPI_API_KEY="your_searchapi_key"
+OPENAI_API_KEY="your_openai_key"
+```
+
+Replace the placeholder values with your keys. Keep the variable names exactly as shown.
+
+The repository’s `.gitignore` excludes `.env`. Keep your API keys private.
+
+## Usage
+
+Run the script from the project folder:
+
+```bash
+python youtube_script_generator.py
+```
+
+Enter your topic when prompted:
+
+```text
+What YouTube video do you want to create? How to build an AI agent in Python
+```
+
+The tool searches for videos, retrieves transcripts, analyzes the content, and writes two files:
+
+| File | Contents |
+| --- | --- |
+| `research.md` | Hooks, common structure, key topics, content gaps, and a recommended video outline. |
+| `script.md` | A video script draft based on the research brief. |
+
+Each run overwrites these files. Save copies before running the tool again if you want to keep earlier results.
+
+## Customization
+
+Edit `youtube_script_generator.py` to change:
+
+- `OPENAI_MODEL`: the OpenAI model used for analysis and writing.
+- `MAX_TRANSCRIPT_CHARS`: the maximum number of characters included from each transcript.
+- The prompts inside `analyze_videos()` and `generate_script()`.
+
+Review the generated script, check its claims, and adapt it to your own examples and voice before recording.
